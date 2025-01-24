@@ -28,12 +28,22 @@ const AdminPasswordResetDialog = ({
   const handleReset = async () => {
     try {
       setIsResetting(true);
-      console.log("[AdminPasswordReset] Starting password reset for member:", memberNumber);
+      console.log("[AdminPasswordReset] Starting password reset process", {
+        memberNumber,
+        memberName,
+        timestamp: new Date().toISOString()
+      });
 
       const { data: userData } = await supabase.auth.getUser();
       if (!userData?.user?.id) {
+        console.error("[AdminPasswordReset] Admin user ID not found");
         throw new Error("Admin user ID not found");
       }
+
+      console.log("[AdminPasswordReset] Admin user verified", {
+        adminUserId: userData.user.id,
+        timestamp: new Date().toISOString()
+      });
 
       const { data, error } = await supabase.rpc('handle_password_reset', {
         member_number: memberNumber,
@@ -48,20 +58,49 @@ const AdminPasswordResetDialog = ({
         })
       });
 
-      if (error) throw error;
+      console.log("[AdminPasswordReset] RPC call completed", {
+        hasData: !!data,
+        hasError: !!error,
+        timestamp: new Date().toISOString()
+      });
 
-      console.log("[AdminPasswordReset] Reset successful:", {
+      if (error) {
+        console.error("[AdminPasswordReset] Error details:", {
+          error: error.message,
+          code: error.code,
+          hint: error.hint,
+          details: error.details,
+          timestamp: new Date().toISOString()
+        });
+        throw error;
+      }
+
+      if (!data?.success) {
+        console.error("[AdminPasswordReset] Reset failed", {
+          response: data,
+          timestamp: new Date().toISOString()
+        });
+        throw new Error(data?.message || "Password reset failed");
+      }
+
+      console.log("[AdminPasswordReset] Reset successful", {
         memberNumber,
+        memberName,
         timestamp: new Date().toISOString()
       });
 
       toast.success("Password has been reset", {
-        description: `Temporary password is: ${memberNumber}`
+        description: `Temporary password for ${memberName} is: ${memberNumber}`
       });
 
       onOpenChange(false);
     } catch (error: any) {
-      console.error("[AdminPasswordReset] Error:", error);
+      console.error("[AdminPasswordReset] Error:", {
+        error: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString()
+      });
+      
       toast.error("Failed to reset password", {
         description: error.message
       });
