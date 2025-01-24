@@ -17,7 +17,7 @@ interface AdminPasswordResetDialogProps {
   memberName: string;
 }
 
-interface PasswordResetResponse {
+type PasswordResetResponse = {
   success: boolean;
   message?: string;
   error?: string;
@@ -28,7 +28,7 @@ interface PasswordResetResponse {
   };
 }
 
-interface PasswordResetParams {
+type PasswordResetParams = {
   member_number: string;
   new_password: string;
   admin_user_id: string;
@@ -65,7 +65,7 @@ const AdminPasswordResetDialog = ({
         timestamp: new Date().toISOString()
       });
 
-      const { data, error } = await supabase.rpc<PasswordResetResponse, PasswordResetParams>('handle_password_reset', {
+      const { data, error } = await supabase.rpc('handle_password_reset', {
         member_number: memberNumber,
         new_password: memberNumber,
         admin_user_id: userData.user.id,
@@ -76,7 +76,7 @@ const AdminPasswordResetDialog = ({
           language: navigator.language,
           timestamp: new Date().toISOString()
         })
-      });
+      }) as { data: PasswordResetResponse | null, error: any };
 
       console.log("[AdminPasswordReset] RPC call completed", {
         hasData: !!data,
