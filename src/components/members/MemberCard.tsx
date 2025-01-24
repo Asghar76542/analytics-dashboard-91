@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/accordion';
 import { useQuery } from '@tanstack/react-query';
 import { useRoleAccess } from '@/hooks/useRoleAccess';
-import { format } from 'date-fns'; // Add this import
+import { format } from 'date-fns';
 import PaymentDialog from './PaymentDialog';
 import NotesDialog from './notes/NotesDialog';
 import NotesList from './notes/NotesList';
@@ -60,7 +60,6 @@ const MemberCard = ({ member, userRole, onEditClick, onDeleteClick }: MemberCard
       
       if (error) throw error;
 
-      // Transform the data to match the Collector type
       if (collectorData) {
         const collector: Collector = {
           ...collectorData,
@@ -163,7 +162,15 @@ const MemberCard = ({ member, userRole, onEditClick, onDeleteClick }: MemberCard
 
           {/* Password Management Section for admins */}
           {userRole === 'admin' && (
-            <MemberPasswordSection memberNumber={member.member_number} />
+            <MemberPasswordSection 
+              memberNumber={member.member_number}
+              memberId={member.id}
+              memberName={member.full_name}
+              passwordSetAt={member.password_set_at}
+              failedLoginAttempts={member.failed_login_attempts}
+              lockedUntil={member.locked_until}
+              passwordResetRequired={member.password_reset_required}
+            />
           )}
 
           {/* Payment History */}
