@@ -56,19 +56,19 @@ const AdminPasswordResetDialog = ({
         timestamp: new Date().toISOString()
       });
 
-      // Call RPC function with individual parameters
-      const { data, error } = await supabase.rpc('handle_password_reset', 
-        memberNumber,           // member_number
-        memberNumber,           // new_password (using member number as temporary password)
-        userData.user.id,       // admin_user_id
-        window.location.hostname, // ip_address
-        navigator.userAgent,    // user_agent
-        JSON.stringify({        // client_info
+      // Call RPC function with parameters as a single object
+      const { data, error } = await supabase.rpc('handle_password_reset', {
+        member_number: memberNumber,
+        new_password: memberNumber,
+        admin_user_id: userData.user.id,
+        ip_address: window.location.hostname,
+        user_agent: navigator.userAgent,
+        client_info: JSON.stringify({
           platform: navigator.platform,
           language: navigator.language,
           timestamp: new Date().toISOString()
         })
-      );
+      });
 
       console.log("[AdminPasswordReset] RPC call completed", {
         hasData: !!data,
