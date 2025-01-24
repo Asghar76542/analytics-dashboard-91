@@ -65,7 +65,7 @@ const AdminPasswordResetDialog = ({
         timestamp: new Date().toISOString()
       });
 
-      const { data, error } = await supabase.rpc<PasswordResetResponse>('handle_password_reset', {
+      const { data, error } = await supabase.rpc<PasswordResetResponse, PasswordResetParams>('handle_password_reset', {
         member_number: memberNumber,
         new_password: memberNumber,
         admin_user_id: userData.user.id,
