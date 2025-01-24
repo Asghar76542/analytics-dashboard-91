@@ -9,7 +9,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { DatabaseFunctions } from "@/integrations/supabase/types/functions";
 
 interface AdminPasswordResetDialogProps {
   open: boolean;
@@ -18,8 +17,25 @@ interface AdminPasswordResetDialogProps {
   memberName: string;
 }
 
-type PasswordResetResponse = DatabaseFunctions['handle_password_reset']['Returns'];
-type PasswordResetParams = DatabaseFunctions['handle_password_reset']['Args'];
+interface PasswordResetResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+  code?: string;
+  details?: {
+    timestamp: string;
+    [key: string]: any;
+  };
+}
+
+interface PasswordResetParams {
+  member_number: string;
+  new_password: string;
+  admin_user_id: string;
+  ip_address: string;
+  user_agent: string;
+  client_info: string;
+}
 
 const AdminPasswordResetDialog = ({
   open,
@@ -49,7 +65,7 @@ const AdminPasswordResetDialog = ({
         timestamp: new Date().toISOString()
       });
 
-      const { data, error } = await supabase.rpc('handle_password_reset', {
+      const { data, error } = await supabase.rpc<PasswordResetResponse>('handle_password_reset', {
         member_number: memberNumber,
         new_password: memberNumber,
         admin_user_id: userData.user.id,
