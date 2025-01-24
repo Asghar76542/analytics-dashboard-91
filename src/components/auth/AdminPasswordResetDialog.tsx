@@ -28,15 +28,6 @@ type PasswordResetResponse = {
   };
 }
 
-type PasswordResetParams = {
-  member_number: string;
-  new_password: string;
-  admin_user_id: string;
-  ip_address: string;
-  user_agent: string;
-  client_info: string;
-}
-
 const AdminPasswordResetDialog = ({
   open,
   onOpenChange,
@@ -65,18 +56,19 @@ const AdminPasswordResetDialog = ({
         timestamp: new Date().toISOString()
       });
 
-      const { data, error } = await supabase.rpc('handle_password_reset', {
-        member_number: memberNumber,
-        new_password: memberNumber,
-        admin_user_id: userData.user.id,
-        ip_address: window.location.hostname,
-        user_agent: navigator.userAgent,
-        client_info: JSON.stringify({
+      // Call RPC function with individual parameters
+      const { data, error } = await supabase.rpc('handle_password_reset', 
+        memberNumber,           // member_number
+        memberNumber,           // new_password (using member number as temporary password)
+        userData.user.id,       // admin_user_id
+        window.location.hostname, // ip_address
+        navigator.userAgent,    // user_agent
+        JSON.stringify({        // client_info
           platform: navigator.platform,
           language: navigator.language,
           timestamp: new Date().toISOString()
         })
-      }) as { data: PasswordResetResponse | null, error: any };
+      );
 
       console.log("[AdminPasswordReset] RPC call completed", {
         hasData: !!data,
@@ -95,12 +87,14 @@ const AdminPasswordResetDialog = ({
         throw error;
       }
 
-      if (!data?.success) {
+      const response = data as PasswordResetResponse;
+      
+      if (!response?.success) {
         console.error("[AdminPasswordReset] Reset failed", {
-          response: data,
+          response,
           timestamp: new Date().toISOString()
         });
-        throw new Error(data?.message || "Password reset failed");
+        throw new Error(response?.message || "Password reset failed");
       }
 
       console.log("[AdminPasswordReset] Reset successful", {
