@@ -9,15 +9,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "bg-dashboard-accent1 text-white hover:bg-dashboard-accent1/90", // Primary Purple
+        destructive: "bg-[#ea384c] text-white hover:bg-[#ea384c]/90", // Red
+        outline: "border border-dashboard-cardBorder bg-transparent hover:bg-dashboard-card hover:text-white",
+        secondary: "bg-dashboard-accent2 text-white hover:bg-dashboard-accent2/80", // Secondary Purple
+        ghost: "hover:bg-dashboard-card hover:text-white",
+        link: "text-dashboard-accent1 underline-offset-4 hover:underline", // Primary Purple
+        success: "bg-dashboard-accent3 text-white hover:bg-dashboard-accent3/80", // Success Green
+        info: "bg-[#0EA5E9] text-white hover:bg-[#0EA5E9]/80", // Ocean Blue
+        warning: "bg-dashboard-warning text-black hover:bg-dashboard-warning/80",
+        soft: "bg-dashboard-softBlue text-dashboard-accent1 hover:bg-dashboard-softBlue/80",
       },
       size: {
         default: "h-10 px-4 py-2",
