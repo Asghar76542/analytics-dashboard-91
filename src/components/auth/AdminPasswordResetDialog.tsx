@@ -25,6 +25,16 @@ interface PasswordResetResponse {
   code?: string;
 }
 
+// Define the input parameters type for the RPC
+interface PasswordResetParams {
+  member_number: string;
+  new_password: string;
+  admin_user_id: string;
+  ip_address: string;
+  user_agent: string;
+  client_info: string;
+}
+
 const AdminPasswordResetDialog = ({
   open,
   onOpenChange,
@@ -53,7 +63,7 @@ const AdminPasswordResetDialog = ({
         timestamp: new Date().toISOString()
       });
 
-      const { data, error } = await supabase.rpc<PasswordResetResponse>('handle_password_reset', {
+      const { data, error } = await supabase.rpc<PasswordResetResponse, PasswordResetParams>('handle_password_reset', {
         member_number: memberNumber,
         new_password: memberNumber,
         admin_user_id: userData.user.id,
