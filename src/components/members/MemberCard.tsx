@@ -166,9 +166,9 @@ const MemberCard = ({ member, userRole, onEditClick, onDeleteClick }: MemberCard
               memberNumber={member.member_number}
               memberId={member.id}
               memberName={member.full_name}
-              passwordSetAt={member.password_set_at}
+              passwordSetAt={member.password_set_at ? new Date(member.password_set_at) : null}
               failedLoginAttempts={member.failed_login_attempts}
-              lockedUntil={member.locked_until}
+              lockedUntil={member.locked_until ? new Date(member.locked_until) : null}
               passwordResetRequired={member.password_reset_required}
             />
           )}
