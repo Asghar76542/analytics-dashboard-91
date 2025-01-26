@@ -72,7 +72,7 @@ const SidePanel = ({ userRole }: SidePanelProps) => {
                       "flex items-center justify-start w-full p-3 text-sm font-medium rounded-md transition-colors",
                       "hover:text-white hover:bg-dashboard-cardHover",
                       location.pathname === link.href 
-                        ? "bg-dashboard-cardHover text-white" 
+                        ? "bg-dashboard-accent1 text-white" 
                         : "text-dashboard-text"
                     )}
                   >
@@ -89,7 +89,7 @@ const SidePanel = ({ userRole }: SidePanelProps) => {
           <Button
             variant="ghost"
             onClick={handleLogout}
-            className="w-full flex items-center justify-start text-dashboard-text hover:text-white hover:bg-dashboard-cardHover"
+            className="w-full flex items-center justify-start bg-dashboard-accent1 text-white hover:bg-dashboard-accent1/80"
           >
             <LogOut className="mr-2 h-4 w-4" />
             <span>Sign out</span>
