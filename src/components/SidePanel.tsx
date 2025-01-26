@@ -85,7 +85,7 @@ const SidePanel = ({ userRole }: SidePanelProps) => {
           </div>
         </div>
         
-        <div className="p-4 border-t border-dashboard-cardBorder">
+        <div className="sticky bottom-0 p-4 mt-auto border-t border-dashboard-cardBorder bg-dashboard-card">
           <Button
             variant="ghost"
             onClick={handleLogout}
