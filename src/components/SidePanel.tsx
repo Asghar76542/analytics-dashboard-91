@@ -62,41 +62,46 @@ const SidePanel = ({ userRole }: SidePanelProps) => {
   });
 
   return (
-    <div className="flex h-screen">
-      <div className="relative border-r border-dashboard-cardBorder bg-dashboard-card px-3 py-8 h-full">
-        <div className="flex flex-col h-full">
-          <div className="space-y-4 py-4">
+    <div className="h-screen flex">
+      <div className="relative flex flex-col h-full w-64 border-r border-dashboard-cardBorder bg-dashboard-card">
+        <div className="flex-1 px-3 py-8">
+          <div className="space-y-4">
             <div className="px-3 py-2">
-              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight text-dashboard-accent1">
+              <h2 className="mb-4 px-4 text-lg font-semibold tracking-tight text-dashboard-accent1">
                 Overview
               </h2>
-              <div className="space-y-1">
+              <nav className="space-y-1">
                 {filteredLinks.map((link, index) => (
                   <Link
                     key={index}
                     to={link.href}
                     className={cn(
-                      "flex items-center justify-start w-full p-2 text-sm font-medium rounded-md text-dashboard-text hover:text-white hover:bg-dashboard-cardHover",
-                      location.pathname === link.href && "bg-dashboard-cardHover text-white"
+                      "flex items-center justify-start w-full p-3 text-sm font-medium rounded-md transition-colors",
+                      "hover:text-white hover:bg-dashboard-cardHover",
+                      location.pathname === link.href 
+                        ? "bg-dashboard-cardHover text-white" 
+                        : "text-dashboard-text"
                     )}
                   >
-                    {link.icon}
-                    <span className="ml-2">{link.title}</span>
+                    <span className="mr-3">{link.icon}</span>
+                    <span>{link.title}</span>
                   </Link>
                 ))}
-              </div>
+              </nav>
             </div>
           </div>
         </div>
-
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleLogout}
-          className="absolute bottom-4 left-4"
-        >
-          <LogOut className="h-5 w-5" />
-        </Button>
+        
+        <div className="p-4 border-t border-dashboard-cardBorder">
+          <Button
+            variant="ghost"
+            onClick={handleLogout}
+            className="w-full flex items-center justify-start text-dashboard-text hover:text-white hover:bg-dashboard-cardHover"
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Sign out</span>
+          </Button>
+        </div>
       </div>
     </div>
   );
