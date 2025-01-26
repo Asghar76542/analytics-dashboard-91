@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { LogOut, Settings, Users, Home, FileText, GitBranch, DollarSign } from "lucide-react";
+import { LogOut, Settings, Users, Home, DollarSign } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
 import { useAuthLogout } from '@/hooks/useAuthLogout';
 
@@ -35,25 +35,11 @@ const SidePanel = ({ userRole }: SidePanelProps) => {
       href: "/financials",
     },
     {
-      title: "Audit",
-      label: "",
-      icon: <FileText className="w-4 h-4" />,
-      variant: "ghost",
-      href: "/audit",
-    },
-    {
       title: "System",
       label: "",
       icon: <Settings className="w-4 h-4" />,
       variant: "ghost",
       href: "/system",
-    },
-    {
-      title: "Git",
-      label: "",
-      icon: <GitBranch className="w-4 h-4" />,
-      variant: "ghost",
-      href: "/git",
     },
   ];
 
